@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170131121744) do
     t.string   "contact_person"
     t.string   "email"
     t.string   "phone_number"
+    t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -29,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170131121744) do
     t.integer  "pallet_count"
     t.integer  "case_count"
     t.integer  "each_count"
+    t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -38,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170131121744) do
     t.integer  "each_in_case"
     t.integer  "cases_in_layer"
     t.integer  "layers_in_pallet"
+    t.integer  "user_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
@@ -47,7 +50,7 @@ ActiveRecord::Schema.define(version: 20170131121744) do
     t.integer  "warehouse_id"
     t.integer  "customer_id"
     t.integer  "quantity"
-    t.string   "user_id"
+    t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -60,6 +63,7 @@ ActiveRecord::Schema.define(version: 20170131121744) do
   create_table "warehouses", force: :cascade do |t|
     t.string   "name"
     t.string   "location"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

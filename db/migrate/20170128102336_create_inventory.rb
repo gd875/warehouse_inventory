@@ -7,6 +7,7 @@ class CreateInventory < ActiveRecord::Migration[5.0]
       t.integer :pallet_count
       t.integer :case_count
       t.integer :each_count
+      t.integer :user_id
       t.timestamps null: false
     end
 end

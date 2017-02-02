@@ -26,8 +26,10 @@ require 'rack-flash'
 
   get '/warehouses/:warehouse_id' do
      if logged_in?
+        @user = User.find(session[:user_id])
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
+        binding.pry
          erb :'/warehouses/show_warehouse'
     else
       redirect "/login"
