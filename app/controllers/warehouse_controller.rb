@@ -25,7 +25,6 @@ require 'rack-flash'
   end
 
   get '/warehouses/:warehouse_id' do
-    binding.pry
      if logged_in?
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
@@ -40,6 +39,7 @@ require 'rack-flash'
             @user = User.find(session[:user_id])
             @warehouse_id = params[:warehouse_id]
             @warehouse = Warehouse.find_by(id: @warehouse_id)
+            @warehouse.delete #Anyone logged in can delete
             # if @warehouse.user_id == @user.id
             #     @warehouse.delete
             # else
@@ -48,6 +48,7 @@ require 'rack-flash'
         else
           redirect "/login"
         end
+        redirect to "/dashboard"
     end
 
     helpers do
