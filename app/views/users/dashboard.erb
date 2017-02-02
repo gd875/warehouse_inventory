@@ -1,3 +1,7 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
 <h1>Dashboard</h1>
 
 <h2>Welcome, <%=@user.username%>!</h2>
@@ -5,6 +9,13 @@
 <a href="/logout">Log Out</a>
 
 <h3>Warehouses</h3>
+
+<a href="/warehouses/new">New Warehouse</a>
+
+<%Warehouse.all.each do |warehouse|%>
+    <p></p>
+    <p><a href="/warehouses/<%=warehouse.id%>"><%=warehouse.name%></a></p>
+    <%end%>
 
 <h3>Products</h3>
 

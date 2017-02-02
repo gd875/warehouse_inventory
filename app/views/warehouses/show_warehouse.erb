@@ -1,0 +1,15 @@
+<h1><%=@warehouse.name%></h1>
+
+<h3><%=@warehouse.location%></h3>
+
+<h2>Inventory</h2>
+
+
+
+<a href="/warehouses/<%=@warehouse_id%>/edit">Edit Warehouse</a>
+
+<form action="/warehouses/<%=@warehouse_id%>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Warehouse">
+</form>
+
