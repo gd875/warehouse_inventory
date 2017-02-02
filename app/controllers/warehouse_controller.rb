@@ -45,6 +45,7 @@ require 'rack-flash'
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
               # erb :'/warehouses/edit_warehouse' #Anyone can edit
+              #User can only edit their own warehouse
               if @warehouse.user_id == @user.id
                   erb :'/warehouses/edit_warehouse'
               else
@@ -72,6 +73,7 @@ require 'rack-flash'
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
               # @warehouse.delete #Anyone logged in can delete
+              #User can only delete their own warehouse
               if @warehouse.user_id == @user.id
                   @warehouse.delete
               else

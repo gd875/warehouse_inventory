@@ -10,7 +10,7 @@
 
 <h3>Warehouses</h3>
 
-<a href="/warehouses/new">New Warehouse</a>
+<a href="/warehouses/new">Create New Warehouse</a>
 
 <%Warehouse.all.each do |warehouse|%>
     <p></p>
@@ -18,5 +18,12 @@
     <%end%>
 
 <h3>Products</h3>
+
+<a href="/products/new">Create New Product</a>
+
+<%Product.all.each do |product|%>
+    <p></p>
+    <p><a href="/products/<%=product.id%>"><%=product.name%></a></p>
+    <%end%>
 
 <h3>Customers</h3>
