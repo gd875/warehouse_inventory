@@ -34,22 +34,49 @@ require 'rack-flash'
     end
   end
 
-  delete '/warehouses/:warehouse_id/delete' do
-        if logged_in?
-            @user = User.find(session[:user_id])
-            @warehouse_id = params[:warehouse_id]
-            @warehouse = Warehouse.find_by(id: @warehouse_id)
-            @warehouse.delete #Anyone logged in can delete
-            # if @warehouse.user_id == @user.id
-            #     @warehouse.delete
-            # else
-            #     redirect "/dashboard"
-            # end
+   get '/warehouses/:warehouse_id/edit' do
+          if logged_in?
+              @user = User.find(session[:user_id])
+              @warehouse_id = params[:warehouse_id]
+              @warehouse = Warehouse.find_by(id: @warehouse_id)
+              erb :'/warehouses/edit_warehouse' #Anyone can edit
+              # if @warehouse.user_id == @user.id
+              #     erb :'/warehouses/edit_warehouse'
+              # else
+              #     redirect "/dashboard"
+              # end
+          else
+            redirect "/login"
+          end
+      end
+
+    patch '/warehouses/:warehouse_id' do
+        @warehouse_id = params[:warehouse_id]
+        @warehouse = Warehouse.find_by(id: @warehouse_id)
+        if !params["warehouse"].empty?
+            @warehouse.update(params["warehouse"])
+            redirect to "/warehouses/#{@warehouse_id}"
         else
-          redirect "/login"
+            redirect to "/warehouses/#{@warehouse_id}/edit"
         end
-        redirect to "/dashboard"
     end
+
+    delete '/warehouses/:warehouse_id/delete' do
+          if logged_in?
+              @user = User.find(session[:user_id])
+              @warehouse_id = params[:warehouse_id]
+              @warehouse = Warehouse.find_by(id: @warehouse_id)
+              @warehouse.delete #Anyone logged in can delete
+              # if @warehouse.user_id == @user.id
+              #     @warehouse.delete
+              # else
+              #     redirect "/dashboard"
+              # end
+          else
+            redirect "/login"
+          end
+          redirect to "/dashboard"
+      end
 
     helpers do
         def logged_in?

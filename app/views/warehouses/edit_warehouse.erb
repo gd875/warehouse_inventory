@@ -1,0 +1,22 @@
+<h1>Edit Warehouse</h1>
+
+<form action="/warehouses/<%=@warehouse_id%>" method="POST">
+<input id="hidden" type="hidden" name="_method" value="patch">
+  <label>Name:</label>
+
+  <br></br>
+
+  <input type="text" id="name" value ="<%=@warehouse.name%>" name="warehouse[name]">
+
+  <br></br>
+
+    <label>Location:</label>
+
+  <br></br>
+
+  <input type="text" id="location" value ="<%=@warehouse.location%>" name="warehouse[location]">
+
+  <br></br>
+
+  <input type="submit" value="submit">
+</form>
