@@ -19,7 +19,11 @@ require 'rack-flash'
   end
 
   post '/warehouses' do
+      @user = User.find(session[:user_id])
       @warehouse = Warehouse.create(params[:warehouse])
+      #Warehouse belongs to current user
+      @warehouse.user_id = @user.id
+      @warehouse.save
       flash[:message] = "Successfully created warehouse."
       redirect to "/dashboard"
   end
@@ -29,7 +33,6 @@ require 'rack-flash'
         @user = User.find(session[:user_id])
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
-        binding.pry
          erb :'/warehouses/show_warehouse'
     else
       redirect "/login"
@@ -41,12 +44,12 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
-              erb :'/warehouses/edit_warehouse' #Anyone can edit
-              # if @warehouse.user_id == @user.id
-              #     erb :'/warehouses/edit_warehouse'
-              # else
-              #     redirect "/dashboard"
-              # end
+              # erb :'/warehouses/edit_warehouse' #Anyone can edit
+              if @warehouse.user_id == @user.id
+                  erb :'/warehouses/edit_warehouse'
+              else
+                  redirect "/dashboard"
+              end
           else
             redirect "/login"
           end
@@ -68,12 +71,12 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
-              @warehouse.delete #Anyone logged in can delete
-              # if @warehouse.user_id == @user.id
-              #     @warehouse.delete
-              # else
-              #     redirect "/dashboard"
-              # end
+              # @warehouse.delete #Anyone logged in can delete
+              if @warehouse.user_id == @user.id
+                  @warehouse.delete
+              else
+                  redirect "/dashboard"
+              end
           else
             redirect "/login"
           end
