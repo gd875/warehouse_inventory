@@ -11,7 +11,11 @@ require 'rack-flash'
   end
 
     get "/" do
-        erb :index
+        if logged_in?
+            redirect "/dashboard"
+        else
+            erb :index
+        end
     end
 
      get "/signup" do

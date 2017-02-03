@@ -71,7 +71,7 @@ class CustomerController < Sinatra::Base
          if !params[:customer].values.any? &:empty? #Unless form is empty
             @customer.update(params["customer"])
             redirect to "/customers/#{@customer_id}"
-        else
+        else #Show error if form is empty
             flash[:message] = "All fields are required!"
             redirect to "/customers/#{@customer_id}/edit"
         end

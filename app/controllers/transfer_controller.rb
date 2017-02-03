@@ -36,11 +36,14 @@ class TransferController < Sinatra::Base
       else
         flash[:message] = "Error: Transfer quantity exceeds available inventory."
         redirect to "/transfers/#{params[:warehouse_id]}/new"
-      end #if
+      end #if transfer exceeds available inventory
       flash[:message] = "Successfully transferred #{params['transfer']['quantity'].to_i} #{@inventory.name} pallets to #{@customer.name}."
       @transfer.save
       redirect to "/warehouses/#{params[:warehouse_id]}"
-    end #if
+    else #Show error if form is empty
+      flash[:message] = "All fields are required!"
+      redirect to "/transfers/#{params[:warehouse_id]}/new"
+    end #if form is empty
   end #do
 
     helpers do
