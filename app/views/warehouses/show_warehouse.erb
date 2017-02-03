@@ -12,6 +12,13 @@
 
 <p><a href="/inventory/<%=@warehouse_id%>/new">Add Inventory</a></p>
 
+<%@inventory.each do |inventory|%>
+
+    <p><b><%=inventory.name%></b></p>
+    <p>Pallets: <%=inventory.pallet_count%></p>
+
+    <%end%>
+
 <p><a href="/warehouses/<%=@warehouse_id%>/edit">Edit Warehouse</a></p>
 
 <form action="/warehouses/<%=@warehouse_id%>/delete" method="post">

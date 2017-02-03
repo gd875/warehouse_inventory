@@ -33,6 +33,7 @@ require 'rack-flash'
         @user = User.find(session[:user_id])
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
+        @inventory = Inventory.where(:warehouse_id =>@warehouse_id)
          erb :'/warehouses/show_warehouse'
     else
       redirect "/login"
