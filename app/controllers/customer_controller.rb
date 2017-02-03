@@ -36,6 +36,7 @@ class CustomerController < Sinatra::Base
           @user = User.find(session[:user_id])
           @customer_id = params[:customer_id]
           @customer = Customer.find_by(id: @customer_id)
+          @transfer = Transfer.where(:customer_id => @customer_id)
           # @inventory = Inventory.where(:warehouse_id =>@warehouse_id)
            erb :'/customers/show_customer'
            # binding.pry

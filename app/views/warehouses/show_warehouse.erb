@@ -12,6 +12,8 @@
 
 <p><a href="/inventory/<%=@warehouse_id%>/new">Add Inventory</a></p>
 
+<p><a href="/transfers/<%=@warehouse_id%>/new">Transfer Inventory</a></p>
+
 <%@inventory.each do |inventory|%>
 
     <p><b><%=inventory.name%></b></p>
