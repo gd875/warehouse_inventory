@@ -46,6 +46,37 @@ class CustomerController < Sinatra::Base
       end
     end
 
+     get '/customers/:customer_id/edit' do
+        if logged_in?
+            @user = User.find(session[:user_id])
+            @customer_id = params[:customer_id]
+            @customer = Customer.find_by(id: @customer_id)
+            # erb :'/customers/edit_customer' #Anyone can edit
+            #User can only edit their own customer
+            if @customer.user_id == @user.id
+                erb :'/customers/edit_customer'
+            else
+                flash[:message] = "This customer doesn't exist in your account."
+                redirect "/dashboard"
+            end
+        else
+          flash[:message] = "You need to be logged in to access this page."
+          redirect "/login"
+        end
+    end
+
+    patch '/customers/:customer_id' do
+        @customer_id = params[:customer_id]
+        @customer = Customer.find_by(id: @customer_id)
+         if !params[:customer].values.any? &:empty? #Unless form is empty
+            @customer.update(params["customer"])
+            redirect to "/customers/#{@customer_id}"
+        else
+            flash[:message] = "All fields are required!"
+            redirect to "/customers/#{@customer_id}/edit"
+        end
+    end
+
     helpers do
         def logged_in?
           !!session[:user_id]
