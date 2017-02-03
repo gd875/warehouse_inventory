@@ -1,14 +1,18 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
 <h1><%=@warehouse.name%></h1>
 
-<h3><%=@warehouse.location%></h3>
+<h3>(<%=@warehouse.location%>)</h3>
 
 <a href="/dashboard">Dashboard</a>
 
 <h2>Inventory</h2>
 
+<p><a href="/inventory/<%=@warehouse_id%>/new">Add Inventory</a></p>
 
-
-<a href="/warehouses/<%=@warehouse_id%>/edit">Edit Warehouse</a>
+<p><a href="/warehouses/<%=@warehouse_id%>/edit">Edit Warehouse</a></p>
 
 <form action="/warehouses/<%=@warehouse_id%>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">

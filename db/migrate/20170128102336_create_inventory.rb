@@ -1,6 +1,6 @@
 class CreateInventory < ActiveRecord::Migration[5.0]
   def change
-    create_table :inventory do |t|
+    create_table :inventories do |t|
       t.string :name
       t.integer :product_id
       t.integer :warehouse_id
