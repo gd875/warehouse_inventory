@@ -25,8 +25,10 @@ class InventoryController < Sinatra::Base
       @inventory.user_id = @user.id
       @product = Product.find_by(:id =>@inventory.product_id)
       @inventory.name = @product.name
+      @inventory.warehouse_id = params[:warehouse_id]
+      @inventory.case_count = (@inventory.pallet_count * @product.cases_in_layer * @product.layers_in_pallet)
+      @inventory.each_count = (@inventory.case_count * @product.each_in_case)
       @inventory.save
-      binding.pry
       flash[:message] = "Successfully created inventory."
       redirect to "/warehouses/#{params[:warehouse_id]}"
   end
