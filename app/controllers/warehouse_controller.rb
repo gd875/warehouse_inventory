@@ -35,6 +35,7 @@ require 'rack-flash'
         @warehouse = Warehouse.find_by(id: @warehouse_id)
         @inventory = Inventory.where(:warehouse_id =>@warehouse_id)
          erb :'/warehouses/show_warehouse'
+         # binding.pry
     else
       redirect "/login"
     end
