@@ -35,7 +35,7 @@ class TransferController < Sinatra::Base
         # binding.pry
       else
         flash[:message] = "Error: Transfer quantity exceeds available inventory."
-        redirect to "/transfers/#{:warehouse_id}/new"
+        redirect to "/transfers/#{params[:warehouse_id]}/new"
       end #if
       flash[:message] = "Successfully transferred #{params['transfer']['quantity'].to_i} #{@inventory.name} pallets to #{@customer.name}."
       @transfer.save
