@@ -29,3 +29,8 @@
 <h3>Customers</h3>
 
 <a href="/customers/new">Create New Customer</a>
+
+<%@customer.each do |customer|%>
+    <p></p>
+    <p><a href="/customers/<%=customer.id%>"><%=customer.name%></a></p>
+    <%end%>

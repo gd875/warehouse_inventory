@@ -39,6 +39,8 @@ require 'rack-flash'
           @warehouse = Warehouse.where(:user_id =>@user.id)
           # Display only the user's products
           @product = Product.where(:user_id =>@user.id)
+          # Display only the user's customers
+          @customer = Customer.where(:user_id =>@user.id)
           erb :"/users/dashboard"
         else
           redirect "/login"

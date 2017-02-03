@@ -30,7 +30,21 @@ class CustomerController < Sinatra::Base
         flash[:message] = "All fields are required!"
         redirect to "/customers/new"
       end #if
-  end
+    end
+
+    get '/customers/:customer_id' do
+       if logged_in?
+          @user = User.find(session[:user_id])
+          @customer_id = params[:customer_id]
+          @customer = Customer.find_by(id: @customer_id)
+          # @inventory = Inventory.where(:warehouse_id =>@warehouse_id)
+           erb :'/customers/show_customer'
+           # binding.pry
+      else
+        flash[:message] = "You need to be logged in to access this page."
+        redirect "/login"
+      end
+    end
 
     helpers do
         def logged_in?
