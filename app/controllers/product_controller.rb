@@ -13,6 +13,7 @@ require 'rack-flash'
     if logged_in?
       erb :'/products/create_product'
     else
+      flash[:message] = "You need to be logged in to access this page."
       redirect "/login"
     end
   end
@@ -34,6 +35,7 @@ require 'rack-flash'
         @product = Product.find_by(id: @product_id)
          erb :'/products/show_product'
     else
+      flash[:message] = "You need to be logged in to access this page."
       redirect "/login"
     end
   end
@@ -48,9 +50,11 @@ require 'rack-flash'
               if @product.user_id == @user.id
                   erb :'/products/edit_product'
               else
+                  flash[:message] = "This product doesn't exist in your account."
                   redirect "/dashboard"
               end
           else
+            flash[:message] = "You need to be logged in to access this page."
             redirect "/login"
           end
       end
@@ -76,9 +80,11 @@ require 'rack-flash'
               if @product.user_id == @user.id
                   @product.delete
               else
+                  flash[:message] = "This product doesn't exist in your account."
                   redirect "/dashboard"
               end
           else
+            flash[:message] = "You need to be logged in to access this page."
             redirect "/login"
           end
           redirect to "/dashboard"

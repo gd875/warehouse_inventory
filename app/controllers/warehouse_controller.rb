@@ -14,6 +14,7 @@ require 'rack-flash'
     if logged_in?
       erb :'/warehouses/create_warehouse'
     else
+      flash[:message] = "You need to be logged in to access this page."
       redirect "/login"
     end
   end
@@ -37,6 +38,7 @@ require 'rack-flash'
          erb :'/warehouses/show_warehouse'
          # binding.pry
     else
+      flash[:message] = "You need to be logged in to access this page."
       redirect "/login"
     end
   end
@@ -51,9 +53,11 @@ require 'rack-flash'
               if @warehouse.user_id == @user.id
                   erb :'/warehouses/edit_warehouse'
               else
+                  flash[:message] = "This warehouse doesn't exist in your account."
                   redirect "/dashboard"
               end
           else
+            flash[:message] = "You need to be logged in to access this page."
             redirect "/login"
           end
       end
@@ -79,9 +83,11 @@ require 'rack-flash'
               if @warehouse.user_id == @user.id
                   @warehouse.delete
               else
+                  flash[:message] = "This warehouse doesn't exist in your account."
                   redirect "/dashboard"
               end
           else
+            flash[:message] = "You need to be logged in to access this page."
             redirect "/login"
           end
           redirect to "/dashboard"

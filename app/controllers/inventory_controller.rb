@@ -14,6 +14,7 @@ class InventoryController < Sinatra::Base
       @product = Product.where(:user_id =>@user.id)
       erb :'/inventory/create_inventory'
     else
+      flash[:message] = "You need to be logged in to access this page."
       redirect "/login"
     end
   end
