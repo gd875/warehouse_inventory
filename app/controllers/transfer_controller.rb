@@ -36,20 +36,6 @@ class TransferController < Sinatra::Base
       else
         flash[:message] = "Error: Transfer quantity exceeds available inventory."
         redirect to "/transfers/#{:warehouse_id}/new"
-        # if !Inventory.find_by(product_id: params["inventory"]["product_id"], warehouse_id: params["warehouse_id"]) #if inventory doesn't exist in this warehouse
-      #       @inventory = Inventory.create(params[:inventory])
-      #       #Inventory belongs to current user
-      #       @inventory.user_id = @user.id
-      #       #Get the product the user selected
-      #       @product = Product.find_by(:id =>@inventory.product_id)
-      #       #Set inventory information
-      #       @inventory.name = @product.name
-      #       @inventory.warehouse_id = params[:warehouse_id]
-      #       @inventory.case_count = (@inventory.pallet_count * @product.cases_in_layer * @product.layers_in_pallet)
-      #       @inventory.each_count = (@inventory.case_count * @product.each_in_case)
-      # else
-      #     @inventory = Inventory.find_by(product_id: params["inventory"]["product_id"], warehouse_id: params["warehouse_id"]) #find the existing inventory
-      #     @inventory.pallet_count += params["inventory"]["pallet_count"].to_i
       end #if
       flash[:message] = "Successfully transferred #{params['transfer']['quantity'].to_i} #{@inventory.name} pallets to #{@customer.name}."
       @transfer.save
