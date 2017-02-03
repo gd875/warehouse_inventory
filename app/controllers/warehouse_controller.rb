@@ -25,8 +25,7 @@ require 'rack-flash'
       #Warehouse belongs to current user
       @warehouse.user_id = @user.id
       @warehouse.save
-      flash[:message] = "Successfully created #{@warehouse.name} warehouse."
-      redirect to "/dashboard"
+      redirect to "/warehouses/#{@warehouse.id}"
   end
 
   get '/warehouses/:warehouse_id' do

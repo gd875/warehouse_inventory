@@ -24,8 +24,7 @@ class CustomerController < Sinatra::Base
         #Customer belongs to current user
         @customer.user_id = @user.id
         @customer.save
-        flash[:message] = "Successfully created customer #{@customer.name}."
-        redirect to "/dashboard"
+        redirect to "/customers/#{@customer.id}"
       else #If form is empty
         flash[:message] = "All fields are required!"
         redirect to "/customers/new"
