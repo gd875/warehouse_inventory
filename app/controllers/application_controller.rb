@@ -32,6 +32,7 @@ require 'rack-flash'
           session[:user_id] = user.id
           redirect "/dashboard"
         else
+          flash[:message] = "All fields are required!"
           redirect "/signup"
         end
       end
