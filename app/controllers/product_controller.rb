@@ -20,11 +20,16 @@ require 'rack-flash'
 
   post '/products' do
       @user = User.find(session[:user_id])
-      @product = Product.create(params[:product])
-      #Warehouse belongs to current user
-      @product.user_id = @user.id
-      @product.save
-      redirect to "/products/#{@product.id}"
+      if !params[:product].values.any? &:empty? #Form can't be empty
+        @product = Product.create(params[:product])
+        #Warehouse belongs to current user
+        @product.user_id = @user.id
+        @product.save
+        redirect to "/products/#{@product.id}"
+      else #If form is empty
+        flash[:message] = "Error: All fields are required!"
+        redirect to "/products/new"
+      end
   end
 
   get '/products/:product_id' do
@@ -61,10 +66,11 @@ require 'rack-flash'
     patch '/products/:product_id' do
         @product_id = params[:product_id]
         @product = Product.find_by(id: @product_id)
-        if !params["product"].empty?
+        if !params[:product].values.any? &:empty?
             @product.update(params["product"])
             redirect to "/products/#{@product_id}"
         else
+            flash[:message] = "Error: All fields are required!"
             redirect to "/products/#{@product_id}/edit"
         end
     end

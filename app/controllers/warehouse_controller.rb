@@ -21,11 +21,16 @@ require 'rack-flash'
 
   post '/warehouses' do
       @user = User.find(session[:user_id])
-      @warehouse = Warehouse.create(params[:warehouse])
-      #Warehouse belongs to current user
-      @warehouse.user_id = @user.id
-      @warehouse.save
-      redirect to "/warehouses/#{@warehouse.id}"
+      if !params[:warehouse].values.any? &:empty? #Form can't be empty
+        @warehouse = Warehouse.create(params[:warehouse])
+        #Warehouse belongs to current user
+        @warehouse.user_id = @user.id
+        @warehouse.save
+        redirect to "/warehouses/#{@warehouse.id}"
+      else #If form is empty
+        flash[:message] = "Error: All fields are required!"
+        redirect to "/warehouses/new"
+      end
   end
 
   get '/warehouses/:warehouse_id' do
@@ -64,10 +69,11 @@ require 'rack-flash'
     patch '/warehouses/:warehouse_id' do
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
-        if !params["warehouse"].empty?
+        if !params[:warehouse].values.any? &:empty? #Form can't be empty
             @warehouse.update(params["warehouse"])
             redirect to "/warehouses/#{@warehouse_id}"
         else
+            flash[:message] = "Error: All fields are required!"
             redirect to "/warehouses/#{@warehouse_id}/edit"
         end
     end

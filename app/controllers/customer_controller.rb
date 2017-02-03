@@ -26,7 +26,7 @@ class CustomerController < Sinatra::Base
         @customer.save
         redirect to "/customers/#{@customer.id}"
       else #If form is empty
-        flash[:message] = "All fields are required!"
+        flash[:message] = "Error: All fields are required!"
         redirect to "/customers/new"
       end #if
     end

@@ -21,8 +21,10 @@
 
     <%end%>
 
+<a href="/warehouses/new">Create New Warehouse</a>
+<br>
 <p><a href="/warehouses/<%=@warehouse_id%>/edit">Edit Warehouse</a></p>
-
+<br></br>
 <form action="/warehouses/<%=@warehouse_id%>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete Warehouse">
