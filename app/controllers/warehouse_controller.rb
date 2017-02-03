@@ -38,7 +38,8 @@ require 'rack-flash'
         @user = User.find(session[:user_id])
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
-        @inventory = Inventory.where(:warehouse_id =>@warehouse_id)
+        #Only hides inventory when qualtity reaches 0
+        @inventory = Inventory.where("warehouse_id = #{@warehouse_id} AND pallet_count > 0")
          erb :'/warehouses/show_warehouse'
          # binding.pry
     else

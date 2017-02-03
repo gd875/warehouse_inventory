@@ -46,6 +46,8 @@ class TransferController < Sinatra::Base
     end #if form is empty
   end #do
 
+#There are no edit or delete routes because orders can't be cancelled or modified once the warehouse sends it out to the customer.
+
     helpers do
         def logged_in?
           !!session[:user_id]

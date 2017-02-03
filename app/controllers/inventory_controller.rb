@@ -47,6 +47,8 @@ class InventoryController < Sinatra::Base
     end #if
   end #do
 
+#Inventory can't be edited or deleted for security reasons. Inventory can't leave the door without a record.
+
     helpers do
         def logged_in?
           !!session[:user_id]
