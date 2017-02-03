@@ -77,6 +77,26 @@ class CustomerController < Sinatra::Base
         end
     end
 
+      delete '/customers/:customer_id/delete' do
+          if logged_in?
+              @user = User.find(session[:user_id])
+              @customer_id = params[:customer_id]
+              @customer = Customer.find_by(id: @customer_id)
+              # @customer.delete #Anyone logged in can delete
+              #User can only delete their own customer
+              if @customer.user_id == @user.id
+                  @customer.delete
+              else
+                  flash[:message] = "This customer doesn't exist in your account."
+                  redirect "/dashboard"
+              end
+          else
+            flash[:message] = "You need to be logged in to access this page."
+            redirect "/login"
+          end
+          redirect to "/dashboard"
+      end
+
     helpers do
         def logged_in?
           !!session[:user_id]
