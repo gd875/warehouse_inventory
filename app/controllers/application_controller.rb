@@ -35,7 +35,10 @@ require 'rack-flash'
       get "/dashboard" do
         if logged_in?
           @user = User.find(session[:user_id])
-      # binding.pry
+          # Display only the user's warehouses
+          @warehouse = Warehouse.where(:user_id =>@user.id)
+          # Display only the user's products
+          @product = Product.where(:user_id =>@user.id)
           erb :"/users/dashboard"
         else
           redirect "/login"
