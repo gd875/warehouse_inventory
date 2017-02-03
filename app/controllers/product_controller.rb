@@ -38,6 +38,52 @@ require 'rack-flash'
     end
   end
 
+     get '/products/:product_id/edit' do
+          if logged_in?
+              @user = User.find(session[:user_id])
+              @product_id = params[:product_id]
+              @product = Product.find_by(id: @product_id)
+              # erb :'/products/edit_product' #Anyone can edit
+              #User can only edit their own warehouse
+              if @product.user_id == @user.id
+                  erb :'/products/edit_product'
+              else
+                  redirect "/dashboard"
+              end
+          else
+            redirect "/login"
+          end
+      end
+
+    patch '/products/:product_id' do
+        @product_id = params[:product_id]
+        @product = Product.find_by(id: @product_id)
+        if !params["product"].empty?
+            @product.update(params["product"])
+            redirect to "/products/#{@product_id}"
+        else
+            redirect to "/products/#{@product_id}/edit"
+        end
+    end
+
+      delete '/products/:product_id/delete' do
+          if logged_in?
+              @user = User.find(session[:user_id])
+              @product_id = params[:product_id]
+              @product = Product.find_by(id: @product_id)
+              # @product.delete #Anyone logged in can delete
+              #User can only delete their own product
+              if @product.user_id == @user.id
+                  @product.delete
+              else
+                  redirect "/dashboard"
+              end
+          else
+            redirect "/login"
+          end
+          redirect to "/dashboard"
+      end
+
     helpers do
         def logged_in?
           !!session[:user_id]
