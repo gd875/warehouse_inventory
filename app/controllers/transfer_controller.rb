@@ -12,7 +12,7 @@ require 'rack-flash'
 
   get '/transfers/:warehouse_id/new' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      @user = current_user
       @warehouse = Warehouse.find_by(:id =>params[:warehouse_id])
       @inventory = Inventory.where(:warehouse_id =>params[:warehouse_id])
       @customer = Customer.where(:user_id =>@user.id)
@@ -24,7 +24,7 @@ require 'rack-flash'
   end
 
   post '/transfers/:warehouse_id' do
-      @user = User.find(session[:user_id])
+      @user = current_user
       @transfer = Transfer.new(params[:transfer])
       if @transfer.save
         @customer = Customer.find_by(id: params["transfer"]["customer_id"])
@@ -57,7 +57,7 @@ require 'rack-flash'
         end
 
         def current_user
-          User.find(session[:user_id])
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
         end
       end #helpers
 
