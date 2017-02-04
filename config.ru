@@ -11,3 +11,4 @@ use ProductController
 use InventoryController
 use CustomerController
 use TransferController
+use UserController
