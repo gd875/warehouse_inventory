@@ -24,10 +24,10 @@ require 'rack-flash'
 
   post '/inventory/:warehouse_id' do
       @user = User.find(session[:user_id])
-      # if !params[:inventory].empty? #Unless form is empty
-      if !params[:inventory].values.any? &:empty? #Check if form is empty
+      @inventory = Inventory.new(params[:inventory])
+      if @inventory.save
+      # if !params[:inventory].values.any? &:empty? #Check if form is empty
         if !Inventory.find_by(product_id: params["inventory"]["product_id"], warehouse_id: params["warehouse_id"]) #if inventory doesn't exist in this warehouse
-            @inventory = Inventory.create(params[:inventory])
             #Inventory belongs to current user
             @inventory.user_id = @user.id
             #Get the product the user selected
