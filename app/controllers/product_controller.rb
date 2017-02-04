@@ -81,11 +81,10 @@ require 'rack-flash'
 
       delete '/products/:product_id/delete' do
           if logged_in?
-              @user = current_user
               @product_id = params[:product_id]
               @product = Product.find_by(id: @product_id)
               #User can only delete their own product
-              if @product.user_id == @user.id
+              if @product.user_id == current_user.id
                   @product.delete
               else
                   flash[:message] = "This product doesn't exist in your account."

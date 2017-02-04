@@ -25,6 +25,7 @@ require 'rack-flash'
       if @customer.save
         #Customer belongs to current user
          @customer.user_id = @user.id
+         @customer.save
          redirect to "/customers/#{@customer.id}"
       else #If form is empty
          flash[:message] = "Error: All fields are required!"
@@ -81,11 +82,10 @@ require 'rack-flash'
 
       delete '/customers/:customer_id/delete' do
           if logged_in?
-              @user = current_user
               @customer_id = params[:customer_id]
               @customer = Customer.find_by(id: @customer_id)
               #User can only delete their own customer
-              if @customer.user_id == @user.id
+              if @customer.user_id == current_user.id
                   @customer.delete
               else
                   flash[:message] = "This customer doesn't exist in your account."

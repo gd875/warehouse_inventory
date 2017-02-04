@@ -83,11 +83,10 @@ require 'rack-flash'
 
     delete '/warehouses/:warehouse_id/delete' do
           if logged_in?
-              @user = current_user
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
               #User can only delete their own warehouse
-              if @warehouse.user_id == @user.id
+              if @warehouse.user_id == current_user.id
                   @warehouse.delete
               else
                   flash[:message] = "This warehouse doesn't exist in your account."
