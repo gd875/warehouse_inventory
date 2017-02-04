@@ -20,7 +20,7 @@ require 'rack-flash'
   end
 
   post '/products' do
-      @user = User.find(session[:user_id])
+      @user = current_user
       @product = Product.new(params[:product])
       if @product.save #Form can't be empty
         #Warehouse belongs to current user
@@ -35,7 +35,7 @@ require 'rack-flash'
 
   get '/products/:product_id' do
      if logged_in?
-        @user = User.find(session[:user_id])
+        @user = current_user
         @product_id = params[:product_id]
         @product = Product.find_by(id: @product_id)
          erb :'/products/show_product'
@@ -47,7 +47,7 @@ require 'rack-flash'
 
      get '/products/:product_id/edit' do
           if logged_in?
-              @user = User.find(session[:user_id])
+              @user = current_user
               @product_id = params[:product_id]
               @product = Product.find_by(id: @product_id)
               #User can only edit their own warehouse
@@ -76,7 +76,7 @@ require 'rack-flash'
 
       delete '/products/:product_id/delete' do
           if logged_in?
-              @user = User.find(session[:user_id])
+              @user = current_user
               @product_id = params[:product_id]
               @product = Product.find_by(id: @product_id)
               #User can only delete their own product
@@ -99,7 +99,7 @@ require 'rack-flash'
         end
 
         def current_user
-          User.find(session[:user_id])
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
         end
       end #helpers
 
