@@ -1,0 +1,49 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1>Create Customer</h1>
+
+<form action="/customers" method="POST">
+  <label>Company Name:</label>
+
+  <br></br>
+
+  <input type="text" id="name" name="customer[name]">
+
+  <br></br>
+
+    <label>Address:</label>
+
+  <br></br>
+
+  <input type="text" id="address" name="customer[address]">
+
+  <br></br>
+
+  <label>Contact Person:</label>
+
+  <br></br>
+
+  <input type="text" id="contact_person" name="customer[contact_person]">
+
+ <br></br>
+
+    <label>Email:</label>
+
+  <br></br>
+
+  <input type="text" id="email" name="customer[email]">
+
+ <br></br>
+
+  <label>Phone Number:</label>
+
+  <br></br>
+
+  <input type="text" id="phone_number" name="customer[phone_number]">
+
+ <br></br>
+
+  <input type="submit" value="submit">
+</form>

@@ -1,0 +1,42 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1><%=@warehouse.name%></h1>
+
+<h3>(<%=@warehouse.location%>)</h3>
+
+<h2>Transfer Inventory</h2>
+
+<h3>Current Inventory:</h3>
+
+<%@inventory.each do |inventory|%>
+
+    <p><b><%=inventory.name%></b></p>
+    <p>Pallets: <%=inventory.pallet_count%></p>
+
+    <%end%>
+
+<p></p>
+
+<form action="/transfers/<%=@warehouse.id%>" method="POST">
+  <h3>Product to be Transferred:</h3>
+
+  <%@inventory.each do |inventory|%>
+      <input type="radio" name="transfer[product_id]" value="<%=inventory.id%>" id="<%=inventory.name%>"><%=inventory.name%></input>
+  <%end%>
+
+  <br></br>
+<label>Quantity to transfer:</label>
+    <input type="number" id="quantity" name="transfer[quantity]">
+
+  <br></br>
+<label>Transfer to:</label>
+  <%@customer.each do |customer|%>
+      <input type="radio" name="transfer[customer_id]" value="<%=customer.id%>" id="<%=customer.name%>"><%=customer.name%></input>
+  <%end%>
+
+  <br></br>
+
+  <input type="submit" value="submit">
+</form>

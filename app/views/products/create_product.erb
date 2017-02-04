@@ -1,0 +1,41 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1>Create Product</h1>
+
+<form action="/products" method="POST">
+  <label>Name:</label>
+
+  <br></br>
+
+  <input type="text" id="name" name="product[name]">
+
+  <br></br>
+
+    <label>How many boxes are in each case?</label>
+
+  <br></br>
+
+  <input type="number" id="each_in_case" name="product[each_in_case]">
+
+  <br></br>
+
+  <label>How many cases are in each layer?</label>
+
+  <br></br>
+
+  <input type="number" id="cases_in_layer" name="product[cases_in_layer]">
+
+  <br></br>
+
+  <label>How many layers are in each pallet?</label>
+
+  <br></br>
+
+  <input type="number" id="layers_in_pallet" name="product[layers_in_pallet]">
+
+  <br></br>
+
+  <input type="submit" value="submit">
+</form>

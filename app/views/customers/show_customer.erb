@@ -1,0 +1,35 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1><%=@customer.name%></h1>
+
+<a href="/dashboard">Dashboard</a>
+
+<p><b>Address:</b> <%=@customer.address%></p>
+
+<p><b>Contact Person:</b> <%=@customer.contact_person%></p>
+
+<p><b>Email:</b> <%=@customer.email%></p>
+
+<p><b>Phone Number:</b> <%=@customer.phone_number%></p>
+
+<h2>Transaction History</h2>
+
+<%@transfer.each_with_index do |transfer, index|%>
+
+    <p><b>Transaction <%=index+1%></b></p>
+    <p>Date: <%=transfer.created_at%></p>
+    <p>Warehouse: <%=Warehouse.find_by(:id => transfer.warehouse_id).name%></p>
+    <p>Product: <%=Product.find_by(:id => transfer.product_id).name%></p>
+    <p>Quantity: <%=transfer.quantity%></p>
+
+
+    <%end%>
+
+<p><a href="/customers/<%=@customer_id%>/edit">Edit Customer</a></p>
+
+<form action="/customers/<%=@customer_id%>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Customer">
+</form>

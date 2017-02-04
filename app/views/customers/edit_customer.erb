@@ -1,0 +1,50 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1>Edit Customer</h1>
+
+<form action="/customers/<%=@customer_id%>" method="POST">
+<input id="hidden" type="hidden" name="_method" value="patch">
+  <label>Company Name:</label>
+
+  <br></br>
+
+  <input type="text" id="name" value ="<%=@customer.name%>" name="customer[name]">
+
+  <br></br>
+
+    <label>Address:</label>
+
+  <br></br>
+
+  <input type="text" id="address" value ="<%=@customer.address%>" name="customer[address]">
+
+  <br></br>
+
+  <label>Contact Person:</label>
+
+  <br></br>
+
+  <input type="text" id="contact_person" value ="<%=@customer.contact_person%>" name="customer[contact_person]">
+
+ <br></br>
+
+    <label>Email:</label>
+
+  <br></br>
+
+  <input type="text" id="email" value ="<%=@customer.email%>" name="customer[email]">
+
+ <br></br>
+
+  <label>Phone Number:</label>
+
+  <br></br>
+
+  <input type="text" id="phone_number" value ="<%=@customer.phone_number%>" name="customer[phone_number]">
+
+ <br></br>
+
+  <input type="submit" value="submit">
+</form>

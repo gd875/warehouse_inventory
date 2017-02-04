@@ -1,0 +1,23 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1>Create Inventory</h1>
+
+<form action="/inventory/<%=@warehouse.id%>" method="POST">
+  <label>Product:</label>
+
+  <br></br>
+
+  <%@product.each do |product|%>
+  <input type="radio" name="inventory[product_id]" value="<%=product.id%>" id="<%=product.name%>"><%=product.name%><br>
+  <%end%>
+
+  <br></br>
+
+    <input type="number" id="pallet_count" name="inventory[pallet_count]">
+
+  <br></br>
+
+  <input type="submit" value="submit">
+</form>

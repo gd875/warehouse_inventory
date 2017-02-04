@@ -1,0 +1,25 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1><%=@product.name%></h1>
+
+<a href="/dashboard">Dashboard</a>
+
+<h3>Boxes in each case</h3>
+<p><%=@product.each_in_case%></p>
+
+<h3>Cases in layer</h3>
+<p><%=@product.cases_in_layer%></p>
+
+<h3>Layers in each pallet</h3>
+<p><%=@product.layers_in_pallet%></p>
+
+<a href="/products/new">Create New Product</a>
+<br>
+<a href="/products/<%=@product_id%>/edit">Edit Product</a>
+<br></br>
+<form action="/products/<%=@product_id%>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Product">
+</form>

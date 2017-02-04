@@ -1,0 +1,42 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
+<h1>Edit Product</h1>
+
+<form action="/products/<%=@product_id%>" method="POST">
+<input id="hidden" type="hidden" name="_method" value="patch">
+  <label>Name:</label>
+
+  <br></br>
+
+  <input type="text" id="name" value ="<%=@product.name%>" name="product[name]">
+
+  <br></br>
+
+    <label>How many boxes are in each case?</label>
+
+  <br></br>
+
+  <input type="number" id="each_in_case" value ="<%=@product.each_in_case%>" name="product[each_in_case]">
+
+  <br></br>
+
+  <label>How many cases are in each layer?</label>
+
+  <br></br>
+
+  <input type="number" id="cases_in_layer" value ="<%=@product.cases_in_layer%>" name="product[cases_in_layer]">
+
+  <br></br>
+
+  <label>How many layers are in each pallet?</label>
+
+  <br></br>
+
+  <input type="number" id="layers_in_pallet" value ="<%=@product.layers_in_pallet%>" name="product[layers_in_pallet]">
+
+  <br></br>
+
+  <input type="submit" value="submit">
+</form>
