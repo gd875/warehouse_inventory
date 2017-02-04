@@ -82,7 +82,6 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
-              # @warehouse.delete #Anyone logged in can delete
               #User can only delete their own warehouse
               if @warehouse.user_id == @user.id
                   @warehouse.delete

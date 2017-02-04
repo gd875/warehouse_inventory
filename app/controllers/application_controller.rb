@@ -20,7 +20,8 @@ require 'rack-flash'
 
       get "/dashboard" do
         if logged_in?
-          @user = User.find(session[:user_id])
+          # @user = User.find(session[:user_id])
+          @user = current_user
           # Display only the user's warehouses
           @warehouse = Warehouse.where(:user_id =>@user.id)
           # Display only the user's products
@@ -39,7 +40,8 @@ require 'rack-flash'
         end
 
         def current_user
-          User.find(session[:user_id])
+          # User.find(session[:user_id])
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
         end
       end #helpers
 

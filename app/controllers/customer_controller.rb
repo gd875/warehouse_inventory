@@ -20,7 +20,8 @@ require 'rack-flash'
   end
 
     post '/customers' do
-      @user = User.find(session[:user_id])
+      # @user = User.find(session[:user_id])
+      @user = current_user
       @customer = Customer.new(params[:customer])
       if @customer.save
         #Customer belongs to current user
@@ -34,7 +35,8 @@ require 'rack-flash'
 
     get '/customers/:customer_id' do
        if logged_in?
-          @user = User.find(session[:user_id])
+          # @user = User.find(session[:user_id])
+          @user = current_user
           @customer_id = params[:customer_id]
           @customer = Customer.find_by(id: @customer_id)
           @transfer = Transfer.where(:customer_id => @customer_id)
@@ -47,7 +49,8 @@ require 'rack-flash'
 
      get '/customers/:customer_id/edit' do
         if logged_in?
-            @user = User.find(session[:user_id])
+            # @user = User.find(session[:user_id])
+            @user = current_user
             @customer_id = params[:customer_id]
             @customer = Customer.find_by(id: @customer_id)
             #User can only edit their own customer
@@ -76,7 +79,8 @@ require 'rack-flash'
 
       delete '/customers/:customer_id/delete' do
           if logged_in?
-              @user = User.find(session[:user_id])
+              # @user = User.find(session[:user_id])
+              @user = current_user
               @customer_id = params[:customer_id]
               @customer = Customer.find_by(id: @customer_id)
               #User can only delete their own customer
@@ -99,7 +103,8 @@ require 'rack-flash'
         end
 
         def current_user
-          User.find(session[:user_id])
+          # User.find(session[:user_id])
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
         end
       end #helpers
 
