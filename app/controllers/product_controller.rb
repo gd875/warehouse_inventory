@@ -66,8 +66,7 @@ require 'rack-flash'
     patch '/products/:product_id' do
         @product_id = params[:product_id]
         @product = Product.find_by(id: @product_id)
-        if !params[:product].values.any? &:empty?
-            @product.update(params["product"])
+        if @product.update(params["product"]) #Form cannot be empty
             redirect to "/products/#{@product_id}"
         else
             flash[:message] = "Error: All fields are required!"
