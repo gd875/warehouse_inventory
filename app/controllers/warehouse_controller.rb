@@ -22,8 +22,7 @@ require 'rack-flash'
   post '/warehouses' do
       @user = User.find(session[:user_id])
       @warehouse = Warehouse.new(params[:warehouse])
-      # if !params[:warehouse].values.any? &:empty? #Form can't be empty
-      if @warehouse.save
+      if @warehouse.save #Form can't be empty
         #Warehouse belongs to current user
         @warehouse.user_id = @user.id
         @warehouse.save
@@ -39,7 +38,7 @@ require 'rack-flash'
         @user = User.find(session[:user_id])
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
-        #Only hides inventory when qualtity reaches 0
+        #Hides inventory from warehouse page when qualtity reaches 0
         @inventory = Inventory.where("warehouse_id = #{@warehouse_id} AND pallet_count > 0")
          erb :'/warehouses/show_warehouse'
          # binding.pry
@@ -54,7 +53,6 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
-              # erb :'/warehouses/edit_warehouse' #Anyone can edit
               #User can only edit their own warehouse
               if @warehouse.user_id == @user.id
                   erb :'/warehouses/edit_warehouse'
@@ -71,8 +69,7 @@ require 'rack-flash'
     patch '/warehouses/:warehouse_id' do
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
-        if !params[:warehouse].values.any? &:empty? #Form can't be empty
-            @warehouse.update(params["warehouse"])
+        if @warehouse.update(params["warehouse"]) #Update form can't be empty
             redirect to "/warehouses/#{@warehouse_id}"
         else
             flash[:message] = "Error: All fields are required!"
