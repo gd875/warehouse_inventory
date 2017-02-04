@@ -12,7 +12,7 @@ require 'rack-flash'
 
   get '/inventory/:warehouse_id/new' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      @user = current_user
       @warehouse = Warehouse.find_by(:id =>params[:warehouse_id])
       @product = Product.where(:user_id =>@user.id)
       erb :'/inventory/create_inventory'
@@ -23,7 +23,7 @@ require 'rack-flash'
   end
 
   post '/inventory/:warehouse_id' do
-      @user = User.find(session[:user_id])
+      @user = current_user
       @inventory = Inventory.new(params[:inventory])
       if @inventory.save
         if !Inventory.find_by(product_id: params["inventory"]["product_id"], warehouse_id: params["warehouse_id"]) #if inventory doesn't exist in this warehouse
@@ -57,7 +57,7 @@ require 'rack-flash'
         end
 
         def current_user
-          User.find(session[:user_id])
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
         end
       end #helpers
 

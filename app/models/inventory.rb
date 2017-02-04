@@ -3,7 +3,6 @@ class Inventory < ActiveRecord::Base
     has_many :transfers
     belongs_to :user
     validates :product_id, presence: true
-    validates :name, presence: true
     validates :pallet_count, presence: true
 
 end
