@@ -21,8 +21,8 @@ require 'rack-flash'
 
   post '/products' do
       @user = User.find(session[:user_id])
-      if !params[:product].values.any? &:empty? #Form can't be empty
-        @product = Product.create(params[:product])
+      @product = Product.new(params[:product])
+      if @product.save #Form can't be empty
         #Warehouse belongs to current user
         @product.user_id = @user.id
         @product.save
@@ -50,7 +50,6 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @product_id = params[:product_id]
               @product = Product.find_by(id: @product_id)
-              # erb :'/products/edit_product' #Anyone can edit
               #User can only edit their own warehouse
               if @product.user_id == @user.id
                   erb :'/products/edit_product'
@@ -81,7 +80,6 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @product_id = params[:product_id]
               @product = Product.find_by(id: @product_id)
-              # @product.delete #Anyone logged in can delete
               #User can only delete their own product
               if @product.user_id == @user.id
                   @product.delete
