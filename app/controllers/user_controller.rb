@@ -60,6 +60,6 @@ require 'rack-flash'
         def logged_in?
           !!session[:user_id]
         end
-      end #helpers
+    end #helpers
 
 end #class

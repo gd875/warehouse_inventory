@@ -20,7 +20,7 @@ require 'rack-flash'
   end
 
   post '/warehouses' do
-      @user = User.find(session[:user_id])
+      @user = current_user
       @warehouse = Warehouse.new(params[:warehouse])
       if @warehouse.save #Form can't be empty
         #Warehouse belongs to current user
@@ -35,13 +35,12 @@ require 'rack-flash'
 
   get '/warehouses/:warehouse_id' do
      if logged_in?
-        @user = User.find(session[:user_id])
+        @user = current_user
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
         #Hides inventory from warehouse page when qualtity reaches 0
         @inventory = Inventory.where("warehouse_id = #{@warehouse_id} AND pallet_count > 0")
          erb :'/warehouses/show_warehouse'
-         # binding.pry
     else
       flash[:message] = "You need to be logged in to access this page."
       redirect "/login"
@@ -50,7 +49,7 @@ require 'rack-flash'
 
    get '/warehouses/:warehouse_id/edit' do
           if logged_in?
-              @user = User.find(session[:user_id])
+              @user = current_user
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
               #User can only edit their own warehouse
@@ -79,7 +78,7 @@ require 'rack-flash'
 
     delete '/warehouses/:warehouse_id/delete' do
           if logged_in?
-              @user = User.find(session[:user_id])
+              @user = current_user
               @warehouse_id = params[:warehouse_id]
               @warehouse = Warehouse.find_by(id: @warehouse_id)
               #User can only delete their own warehouse
@@ -102,7 +101,7 @@ require 'rack-flash'
         end
 
         def current_user
-          User.find(session[:user_id])
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
         end
       end #helpers
 
