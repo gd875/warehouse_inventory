@@ -26,12 +26,12 @@ require 'rack-flash'
       # if !params[:customer].values.any? &:empty? #Unless form is empty
         # @customer = Customer.create(params[:customer])
         #Customer belongs to current user
-        @customer.user_id = @user.id
+         @customer.user_id = @user.id
         # @customer.save
-        redirect to "/customers/#{@customer.id}"
+         redirect to "/customers/#{@customer.id}"
       else #If form is empty
-        flash[:message] = "Error: All fields are required!"
-        redirect to "/customers/new"
+         flash[:message] = "Error: All fields are required!"
+         redirect to "/customers/new"
       end #if
     end
 
