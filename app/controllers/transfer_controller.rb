@@ -30,7 +30,6 @@ require 'rack-flash'
         @customer = Customer.find_by(id: params["transfer"]["customer_id"])
         @inventory = Inventory.find_by(product_id: params["transfer"]["product_id"], warehouse_id: params["warehouse_id"])
         if !(params["transfer"]["quantity"].to_i > @inventory.pallet_count.to_i) #Unless transfer quantity exceeds available inventory
-
         @transfer.user_id = @user.id
         @transfer.warehouse_id = params[:warehouse_id]
         #Remove quantity from inventory

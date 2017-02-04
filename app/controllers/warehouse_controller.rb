@@ -21,8 +21,9 @@ require 'rack-flash'
 
   post '/warehouses' do
       @user = User.find(session[:user_id])
-      if !params[:warehouse].values.any? &:empty? #Form can't be empty
-        @warehouse = Warehouse.create(params[:warehouse])
+      @warehouse = Warehouse.new(params[:warehouse])
+      # if !params[:warehouse].values.any? &:empty? #Form can't be empty
+      if @warehouse.save
         #Warehouse belongs to current user
         @warehouse.user_id = @user.id
         @warehouse.save
