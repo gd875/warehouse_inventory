@@ -23,11 +23,8 @@ require 'rack-flash'
       @user = User.find(session[:user_id])
       @customer = Customer.new(params[:customer])
       if @customer.save
-      # if !params[:customer].values.any? &:empty? #Unless form is empty
-        # @customer = Customer.create(params[:customer])
         #Customer belongs to current user
          @customer.user_id = @user.id
-        # @customer.save
          redirect to "/customers/#{@customer.id}"
       else #If form is empty
          flash[:message] = "Error: All fields are required!"
@@ -41,9 +38,7 @@ require 'rack-flash'
           @customer_id = params[:customer_id]
           @customer = Customer.find_by(id: @customer_id)
           @transfer = Transfer.where(:customer_id => @customer_id)
-          # @inventory = Inventory.where(:warehouse_id =>@warehouse_id)
            erb :'/customers/show_customer'
-           # binding.pry
       else
         flash[:message] = "You need to be logged in to access this page."
         redirect "/login"
@@ -55,7 +50,6 @@ require 'rack-flash'
             @user = User.find(session[:user_id])
             @customer_id = params[:customer_id]
             @customer = Customer.find_by(id: @customer_id)
-            # erb :'/customers/edit_customer' #Anyone can edit
             #User can only edit their own customer
             if @customer.user_id == @user.id
                 erb :'/customers/edit_customer'
@@ -72,8 +66,7 @@ require 'rack-flash'
     patch '/customers/:customer_id' do
         @customer_id = params[:customer_id]
         @customer = Customer.find_by(id: @customer_id)
-         if !params[:customer].values.any? &:empty? #Unless form is empty
-            @customer.update(params["customer"])
+        if @customer.update(params["customer"])
             redirect to "/customers/#{@customer_id}"
         else #Show error if form is empty
             flash[:message] = "All fields are required!"
@@ -86,7 +79,6 @@ require 'rack-flash'
               @user = User.find(session[:user_id])
               @customer_id = params[:customer_id]
               @customer = Customer.find_by(id: @customer_id)
-              # @customer.delete #Anyone logged in can delete
               #User can only delete their own customer
               if @customer.user_id == @user.id
                   @customer.delete
