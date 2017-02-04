@@ -68,11 +68,16 @@ require 'rack-flash'
     patch '/warehouses/:warehouse_id' do
         @warehouse_id = params[:warehouse_id]
         @warehouse = Warehouse.find_by(id: @warehouse_id)
-        if @warehouse.update(params["warehouse"]) #Update form can't be empty
-            redirect to "/warehouses/#{@warehouse_id}"
+        if @warehouse.user_id == current_user.id
+            if @warehouse.update(params["warehouse"]) #Update form can't be empty
+                redirect to "/warehouses/#{@warehouse_id}"
+            else
+                flash[:message] = "Error: All fields are required!"
+                redirect to "/warehouses/#{@warehouse_id}/edit"
+            end
         else
-            flash[:message] = "Error: All fields are required!"
-            redirect to "/warehouses/#{@warehouse_id}/edit"
+            flash[:message] = "This warehouse doesn't exist in your account."
+            redirect "/dashboard"
         end
     end
 

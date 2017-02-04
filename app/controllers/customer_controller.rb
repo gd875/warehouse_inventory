@@ -66,11 +66,16 @@ require 'rack-flash'
     patch '/customers/:customer_id' do
         @customer_id = params[:customer_id]
         @customer = Customer.find_by(id: @customer_id)
-        if @customer.update(params["customer"])
-            redirect to "/customers/#{@customer_id}"
-        else #Show error if form is empty
-            flash[:message] = "All fields are required!"
-            redirect to "/customers/#{@customer_id}/edit"
+         if @customer.user_id == current_user.id
+            if @customer.update(params["customer"])
+                redirect to "/customers/#{@customer_id}"
+            else #Show error if form is empty
+                flash[:message] = "All fields are required!"
+                redirect to "/customers/#{@customer_id}/edit"
+            end
+        else
+            flash[:message] = "This customer doesn't exist in your account."
+            redirect "/dashboard"
         end
     end
 
