@@ -7,6 +7,7 @@ require 'rack-flash'
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "password_security"
+    use Rack::Flash
   end
 
   get '/products/new' do

@@ -1,10 +1,13 @@
 class CustomerController < Sinatra::Base
 
+require 'rack-flash'
+
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "password_security"
+    use Rack::Flash
   end
 
   get '/customers/new' do
@@ -18,12 +21,13 @@ class CustomerController < Sinatra::Base
 
     post '/customers' do
       @user = User.find(session[:user_id])
-      # binding.pry
-      if !params[:customer].values.any? &:empty? #Unless form is empty
-        @customer = Customer.create(params[:customer])
+      @customer = Customer.new(params[:customer])
+      if @customer.save
+      # if !params[:customer].values.any? &:empty? #Unless form is empty
+        # @customer = Customer.create(params[:customer])
         #Customer belongs to current user
         @customer.user_id = @user.id
-        @customer.save
+        # @customer.save
         redirect to "/customers/#{@customer.id}"
       else #If form is empty
         flash[:message] = "Error: All fields are required!"
