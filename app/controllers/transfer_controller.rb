@@ -25,11 +25,12 @@ require 'rack-flash'
 
   post '/transfers/:warehouse_id' do
       @user = User.find(session[:user_id])
-      if !params[:transfer].values.any? &:empty? #Unless form is empty
+      @transfer = Transfer.new(params[:transfer])
+      if @transfer.save
         @customer = Customer.find_by(id: params["transfer"]["customer_id"])
         @inventory = Inventory.find_by(product_id: params["transfer"]["product_id"], warehouse_id: params["warehouse_id"])
         if !(params["transfer"]["quantity"].to_i > @inventory.pallet_count.to_i) #Unless transfer quantity exceeds available inventory
-        @transfer = Transfer.create(params[:transfer])
+
         @transfer.user_id = @user.id
         @transfer.warehouse_id = params[:warehouse_id]
         #Remove quantity from inventory
@@ -39,7 +40,7 @@ require 'rack-flash'
       else
         flash[:message] = "Error: Transfer quantity exceeds available inventory."
         redirect to "/transfers/#{params[:warehouse_id]}/new"
-      end #if transfer exceeds available inventory
+      end #If transfer exceeds available inventory
       flash[:message] = "Successfully transferred #{params['transfer']['quantity'].to_i} #{@inventory.name} pallets to #{@customer.name}."
       @transfer.save
       redirect to "/warehouses/#{params[:warehouse_id]}"
